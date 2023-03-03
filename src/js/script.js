@@ -92,8 +92,7 @@
       
       /* find the clickable trigger (the element that should react to clicking) */
 
-      const clickableTrigger = document.querySelector(select.menuProduct.clickable);
-      
+      const clickableTrigger = thisProduct.element.querySelector(select.menuProduct.clickable);
 
       /* START: add event listener to clickable trigger on event click */
       
@@ -107,19 +106,18 @@
 
         /* find active product (product that has active class) */
 
-        const activeProducts = document.querySelectorAll(classNames.menuProduct.wrapperActive);
+        const activeProduct = document.querySelectorAll(classNames.menuProduct.wrapperActive);
 
         /* if there is active product and it's not thisProduct.element, remove class active from it */
-          
-        for(let activeProduct of activeProducts){
-          if(activeProduct != thisProduct.element){
-            activeProduct.classList.remove('active');
-          }
-        } 
+ 
+        if(activeProduct == null && activeProduct != thisProduct.element){
+          activeProduct.classList.remove(classNames.menuProduct.wrapperActive);
+        }
+        
 
         /* toggle active class on thisProduct.element */
       
-        thisProduct.element.classList.toggle('active');
+        thisProduct.element.classList.toggle(classNames.menuProduct.wrapperActive);
 
       });
     }
