@@ -119,10 +119,11 @@
 
         /* find active product (product that has active class) */
 
-        const activeProduct = thisProduct.element.querySelector(classNames.menuProduct.wrapperActive);
+        const activeProduct = document.querySelector(classNames.menuProduct.wrapperActive);
+        console.log(activeProduct);
         /* if there is active product and it's not thisProduct.element, remove class active from it */
  
-        if(!!activeProduct && activeProduct != thisProduct.element){
+        if(activeProduct != null && activeProduct != thisProduct.element){
           activeProduct.classList.remove(classNames.menuProduct.wrapperActive);
         }       
 
@@ -152,15 +153,52 @@
       });
     }
 
-    processOrder(){
+    processOrder() {
       const thisProduct = this;
-      console.log('processOrder This', thisProduct);
-
+    
+      // covert form to object structure e.g. { sauce: ['tomato'], toppings: ['olives', 'redPeppers']}
       const formData = utils.serializeFormToObject(thisProduct.form);
       console.log('formData', formData);
-    }
+    
+      // set price to default price
+      let price = thisProduct.data.price;
+    
+      // for every category (param)...
+      for(let paramId in thisProduct.data.params) {
+        // determine param value, e.g. paramId = 'toppings', param = { label: 'Toppings', type: 'checkboxes'... }
+        const param = thisProduct.data.params[paramId];
+        console.log(paramId, param);
+    
+        // for every option in this category
+        for(let optionId in param.options) {
+          // determine option value, e.g. optionId = 'olives', option = { label: 'Olives', price: 2, default: true }
+          const option = param.options[optionId];
+          console.log(optionId, option);
 
+          // check if there is param with a name of paramId in formData and if it includes optionId
+          if(formData[paramId] && formData[paramId].includes(optionId)) {
+            // check if the option is not default
+            if(!optionId.includes('default')) {
+              // add option price to price variable
+              price += option.price;
+            }
+          } else {
+            // check if the option is default
+            if(optionId.includes('default')) {
+              // reduce price variable
+              price -= option.price;
+            }
+          }
+        }
+      }
+
+      // update calculated price in the HTML
+      thisProduct.priceElem.innerHTML = price;
+    }
   }
+    
+
+  
 
   const app = {
     initMenu: function(){
