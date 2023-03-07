@@ -97,6 +97,7 @@
       thisProduct.formInputs = thisProduct.form.querySelectorAll(select.all.formInputs);
       thisProduct.cartButton = thisProduct.element.querySelector(select.menuProduct.cartButton);
       thisProduct.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem);
+      thisProduct.imageWrapper = thisProduct.element.querySelector(select.menuProduct.imageWrapper);
     }
 
     initAccordion(){
@@ -119,7 +120,7 @@
 
         /* find active product (product that has active class) */
 
-        const activeProduct = document.querySelector(classNames.menuProduct.wrapperActive);
+        const activeProduct = document.querySelector('.active');
         console.log(activeProduct);
         /* if there is active product and it's not thisProduct.element, remove class active from it */
  
@@ -174,6 +175,10 @@
           // determine option value, e.g. optionId = 'olives', option = { label: 'Olives', price: 2, default: true }
           const option = param.options[optionId];
           console.log(optionId, option);
+          // find all images
+
+          const image = thisProduct.imageWrapper.querySelector(select.menuProduct.imageWrapper);
+          console.log(image);
 
           // check if there is param with a name of paramId in formData and if it includes optionId
           if(formData[paramId] && formData[paramId].includes(optionId)) {
@@ -188,6 +193,9 @@
               // reduce price variable
               price -= option.price;
             }
+          }
+          if(formData[paramId] && formData[paramId].includes(optionId)){
+            image.classList.add(classNames.menuProduct.imageVisible);
           }
         }
       }
