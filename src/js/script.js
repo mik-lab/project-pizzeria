@@ -99,7 +99,6 @@
       thisProduct.initOrderForm();
       thisProduct.initAmountWidget();
       thisProduct.processOrder();
-    //  console.log('new Product', thisProduct);
     }
 
     renderInMenu(){
@@ -254,7 +253,7 @@
     addToCart(){
       const thisProduct = this; 
 
-      app.cart.add(this.prepareCartProduct());
+      app.cart.add(thisProduct.prepareCartProduct());
     }
 
     prepareCartProduct(){
@@ -271,7 +270,7 @@
       return productSummary;
     }
 
-    prepareCartProductParams(){
+    prepareCartProductParams() {
       const thisProduct = this;
     
       const formData = utils.serializeFormToObject(thisProduct.form);
@@ -298,6 +297,7 @@
           }
         }
       }
+    
       return params;
     }
     
@@ -391,7 +391,6 @@
 
       thisCart.dom.toggleTrigger = thisCart.dom.wrapper.querySelector(select.cart.toggleTrigger);
       thisCart.dom.productList = thisCart.dom.wrapper.querySelector(select.cart.productList);
-      console.log(thisCart.dom.productList);
     }
 
     initActions(){
@@ -404,13 +403,11 @@
 
     add(menuProduct){
       const thisCart = this;
+
       console.log('adding product', menuProduct);
-      
-      const generatedHTML = templates.cartProduct(thisCart.menuProduct);
-      console.log(thisCart.Product);
 
+      const generatedHTML = templates.cartProduct(menuProduct);
       const generatedDOM = utils.createDOMFromHTML(generatedHTML);
-
       thisCart.dom.productList.appendChild(generatedDOM);
     }
   }
